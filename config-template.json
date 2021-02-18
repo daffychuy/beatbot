@@ -1,0 +1,12 @@
+{
+    "BOT_TOKEN": "",
+
+    "color": "#ffaa00",
+    "prefix": ">",
+
+    "DB_HOST": "",
+    "DB_USER": "",
+    "DB_PASS": "",
+    "DB_PORT": "",
+    "DB_NAME": ""
+}

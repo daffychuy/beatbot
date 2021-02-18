@@ -27,12 +27,11 @@ const getUserData = async (userID, msg) => {
             .setTitle(playerData.playerInfo.playerName)
             .setURL(`${SCORESABER_URL}/u/${bsID}`)
             .setThumbnail(`${SCORESABER_URL}${playerData.playerInfo.avatar}`)
-            .setDescription(`**Global Rank**: #${playerData.playerInfo.rank}
-            **Country (${playerData.playerInfo.country})**: #${playerData.playerInfo.countryRank}
-            **PP**: ${playerData.playerInfo.pp}
-            **Avg Acc**: ${parseFloat(playerData.scoreStats.averageRankedAccuracy).toFixed(2)}%
-            **# of Ranked Played**: ${playerData.scoreStats.rankedPlayCount}
-            `)
+            .setDescription(`**Global Rank**: #${playerData.playerInfo.rank}\n**Country (${playerData.playerInfo.country})**: #${playerData.playerInfo.countryRank}\n`+
+            `**PP**: ${playerData.playerInfo.pp}\n`+
+            `**Avg Acc**: ${parseFloat(playerData.scoreStats.averageRankedAccuracy).toFixed(2)}%\n`+
+            `**# of Ranked Played**: ${playerData.scoreStats.rankedPlayCount}`
+            )
         
         msg.channel.send(playerEmbed);
         return;

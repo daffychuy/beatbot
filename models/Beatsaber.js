@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
 
 const BeatSaber = new mongoose.Schema({
-    serverID: { type: String, unique: true},
-    discordID: { type: String, unique: true},
-    scoresaberID: { type: String, unique: true},
+    serverID: String,
+    discordID: String,
+    scoresaberID: String,
 	UserData: Object,
 }, {
     collection: 'beatsaber'

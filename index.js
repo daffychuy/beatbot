@@ -7,7 +7,9 @@ const {
     linkUserData,
     updateUserData,
     getLeaderboard,
+    unlinkUserData,
     getMap,
+    updateLeaderboard,
 } = require('./DataParser');
 
 const client = new Discord.Client({
@@ -20,16 +22,6 @@ const client = new Discord.Client({
     }
 });
 const Enmap = require('enmap');
-// const client = new Discord.Client({
-//     presence: {
-//         activity: {
-//            type: `PLAYING`,
-//            name: `BeatSaber`,
-//         },
-//         status: "idle",
-//         ws: { intents: ["GUILDS", "GUILD_VOICE_STATES", "GUILD_MESSAGES", "GUILD_MESSAGE_REACTIONS"] }
-//      }
-// });
 
 client.settings = new Enmap({
     name: "settings",
@@ -42,10 +34,11 @@ client.settings = new Enmap({
       modRole: "mod",
       adminRole: "admin",
       welcomeChannel: "welcome",
-      welcomeMessage: "Say hello to {{user}}, everyone!"
+      welcomeMessage: "Say hello to {{user}}, everyone!",
+      leaderboard: []
     },
-    
   });
+
 
 client.login(config.BOT_TOKEN);
 
@@ -60,10 +53,10 @@ client.on("message", async (message) => {
     // Base case to check if request is coming from user or a bot and if its a command
     if (!message.guild || message.author.bot) return;
     
-    const guildConf = client.settings.get(message.guild.id);
+    const guildID = message.guild.id;
+    const guildConf = client.settings.get(guildID);
 
     if(message.content.indexOf(guildConf.prefix) !== 0) return;
-
 
     const args = message.content.split(/\s+/g);
     const command = args.shift().slice(guildConf.prefix.length).toLowerCase();
@@ -90,7 +83,7 @@ client.on("message", async (message) => {
             return message.reply("You're not an admin, sorry!");
         }
 
-        client.settings.set(message.guild.id, args[0], 'prefix');
+        client.settings.set(guildID, args[0], 'prefix');
 
         message.reply(`new prefix for the server: ${args[0]}`)
 
@@ -127,7 +120,14 @@ client.on("message", async (message) => {
             return;
         }
 
-        await getLeaderboard(message)
+        await getLeaderboard(guildID, message, client)
+
+    } else if (command === 'unlink') {
+
+        await unlinkUserData(userID, message);
+    } else if (command === 'updateboard') {
+
+        updateLeaderboard(guildID, message, client)
 
     } else if (command === "song") {
         return message.reply("this feature is currently not supported :(");

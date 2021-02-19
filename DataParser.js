@@ -203,8 +203,6 @@ const getLeaderboard = async (guildID, msg, client) => {
                         let previousMsgs = client.settings.get(guildID)['leaderboard']
                         previousMsgs.push({msgID: id, channelID: msg.channel.id});
                         client.settings.set(guildID, previousMsgs, "leaderboard")
-
-                        console.log(client.settings);
                 });
         });
         
@@ -241,15 +239,13 @@ const getRanking = async (guildID, msg, client) => {
                             str += `#${i+1}: **${data2[i].UserData.playerInfo.playerName}** - ${data2[i].UserData.playerInfo.pp}pp - Ranked: ${data2[i].UserData.playerInfo.rank}\n`
                         }
                         leaderboard.setDescription(str)
-                        let sent = await msg.channel.send(leaderboard);
+                        await msg.channel.send(leaderboard);
 
                 });
         });
         
         
-        
-        console.log("before or after")
-        
+            
 
 
     } catch (error) {

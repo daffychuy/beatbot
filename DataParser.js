@@ -141,7 +141,7 @@ const updateLeaderboard = async (guildID, msg, client, erase = 1) => {
                 const leaderboard = new Discord.MessageEmbed()
                     .setColor(config.color)
                     .setTitle("<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
-                    .setFooter(`Last Updated: ${new Date().toISOString().replace(/T/, ' ').replace(/\..+/, '')}`)
+                    .setFooter(`Last Updated: ${new Date().toLocaleString('en-US', { timeZone: 'America/Toronto' })}`)
                 BeatSaber.find({serverID: guildID})
                     .sort({"UserData.playerInfo.rank": 1})
                     .exec(async function(err, data2) {

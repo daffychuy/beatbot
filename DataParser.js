@@ -42,7 +42,7 @@ const getUserData = async (userID, msg) => {
     }
 }
 
-const linkUserData = async (userID, bsID, msg) => {
+const linkUserData = async (userID, bsID, msg, client) => {
     try {
         if (!/^\d+$/.test(bsID)) {
             return msg.reply("please supply the correct id")
@@ -71,6 +71,7 @@ const linkUserData = async (userID, bsID, msg) => {
             if (err) return console.error(err);
             msg.react('<a:Animated_Checkmark:811809664391053343>')
         })
+        updateLeaderboard (msg.guild.id, msg, client)
 
     } catch (error) {
         msg.channel.send("There's some error...")

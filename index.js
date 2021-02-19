@@ -106,7 +106,7 @@ client.on("message", async (message) => {
         }
         let bsID = args[0];
 
-        await linkUserData(userID, bsID, message);
+        await linkUserData(userID, bsID, message, client);
     } else if (command === "updatebs") {
         if (args.length >= 1) {
             message.reply("are you trying to break me?");

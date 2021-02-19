@@ -90,7 +90,7 @@ client.on("message", async (message) => {
     } else if (command === "ping") {
         const timeTaken = Date.now() - message.createdTimestamp;
         const timeToPing = client.ws.ping;
-        message.reply(`Pong! Latency: ${timeTaken}ms. API latency: ${timeToPing}`);
+        message.reply(`STOP PINGING ME!!!! But... Latency: ${timeTaken}ms. API latency: ${timeToPing}ms.`);
     } else if (command === "bs") {
         if (args.length >= 1) {
             message.reply("are you trying to break me?");
@@ -118,6 +118,12 @@ client.on("message", async (message) => {
         if (args.length >= 1) {
             message.reply("are you trying to break me?");
             return;
+        }
+        const adminRole = message.guild.roles.cache.find(role => role.name === guildConf.adminRole);
+        if(!adminRole) return message.reply("Administrator Role Not Found");
+
+        if(!message.member.roles.cache.has(adminRole.id)) {
+            return message.reply("You're not an admin, sorry!");
         }
 
         await getLeaderboard(guildID, message, client)

@@ -71,7 +71,7 @@ const linkUserData = async (userID, bsID, msg, client) => {
             if (err) return console.error(err);
             msg.react('<a:Animated_Checkmark:811809664391053343>')
         })
-        updateLeaderboard (msg.guild.id, msg, client)
+        updateLeaderboard (msg.guild.id, msg, client, 0)
 
     } catch (error) {
         msg.channel.send("There's some error...")
@@ -124,7 +124,7 @@ const getMap = async (songName, msg) => {
     }
 }
 
-const updateLeaderboard = async (guildID, msg, client) => {
+const updateLeaderboard = async (guildID, msg, client, erase = 1) => {
     try {
         BeatSaber.find({serverID: guildID})
             .sort({"UserData.playerInfo.rank": 1})
@@ -157,7 +157,7 @@ const updateLeaderboard = async (guildID, msg, client) => {
                                 messages.edit(leaderboard);
                             })
                         }
-                        msg.delete()
+                        if (erase === 1) msg.delete(); 
                 });
                 
         });

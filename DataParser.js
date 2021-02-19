@@ -208,6 +208,44 @@ const getLeaderboard = async (guildID, msg, client) => {
                 });
         });
         
+    } catch (error) {
+        msg.channel.send("There's some error...")
+        console.debug(`ERROR: ${error}`)
+    }
+}
+
+
+const getRanking = async (guildID, msg, client) => {
+    try {
+        BeatSaber.find({serverID: guildID})
+            .sort({"UserData.playerInfo.rank": 1})
+            .exec(async function(err, data) {
+                for (let i = 0; i < data.length; i++) {
+                    const response = await got(`${PLAYER_PATH}/${data[i].scoresaberID}/full`);
+                    await BeatSaber.updateOne({scoresaberID: data[i].scoresaberID, discordID: data[i].discordID},
+                        {UserData: JSON.parse(response.body)}, function(error) {
+                            if (error) {
+                                console.error(err);
+                            }
+                        })
+                }
+                const leaderboard = new Discord.MessageEmbed()
+                    .setColor(config.color)
+                    .setTitle("<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
+
+                BeatSaber.find({serverID: guildID})
+                    .sort({"UserData.playerInfo.rank": 1})
+                    .exec(async function(err2, data2) {
+                        let str = "";
+                        for (let i = 0; i < data2.length; i++) {
+                            str += `#${i+1}: **${data2[i].UserData.playerInfo.playerName}** - ${data2[i].UserData.playerInfo.pp}pp - Ranked: ${data2[i].UserData.playerInfo.rank}\n`
+                        }
+                        leaderboard.setDescription(str)
+                        let sent = await msg.channel.send(leaderboard);
+
+                });
+        });
+        
         
         
         console.log("before or after")
@@ -240,6 +278,7 @@ module.exports = {
     unlinkUserData,
     getLeaderboard,
     updateLeaderboard,
+    getRanking,
     // Scoresaver Functionalities
     getMap,
 }

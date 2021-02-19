@@ -9,6 +9,7 @@ const {
     getLeaderboard,
     unlinkUserData,
     getMap,
+    getRanking,
     updateLeaderboard,
 } = require('./DataParser');
 
@@ -127,6 +128,10 @@ client.on("message", async (message) => {
         }
 
         await getLeaderboard(guildID, message, client)
+
+    } else if (command === "ranking") {
+
+        await getRanking(guildID, message, client)
 
     } else if (command === 'unlink') {
 

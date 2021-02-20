@@ -131,7 +131,7 @@ const updateLeaderboard = async (guildID, msg, client, erase = 1) => {
             .exec(async function(err, data) {
                 for (let i = 0; i < data.length; i++) {
                     const response = await got(`${PLAYER_PATH}/${data[i].scoresaberID}/full`);
-                    BeatSaber.updateOne({scoresaberID: data[i].scoresaberID, discordID: data[i].discordID},
+                    BeatSaber.updateOne({serverID: guildID, scoresaberID: data[i].scoresaberID, discordID: data[i].discordID},
                         {UserData: JSON.parse(response.body)}, function(error) {
                             if (error) {
                                 console.error(err);
@@ -177,7 +177,7 @@ const getLeaderboard = async (guildID, msg, client) => {
             .exec(async function(err, data) {
                 for (let i = 0; i < data.length; i++) {
                     const response = await got(`${PLAYER_PATH}/${data[i].scoresaberID}/full`);
-                    await BeatSaber.updateOne({scoresaberID: data[i].scoresaberID, discordID: data[i].discordID},
+                    await BeatSaber.updateOne({serverID: guildID, scoresaberID: data[i].scoresaberID, discordID: data[i].discordID},
                         {UserData: JSON.parse(response.body)}, function(error) {
                             if (error) {
                                 console.error(err);

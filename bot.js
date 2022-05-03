@@ -5,7 +5,7 @@
  */
 
 // Declare constants which will be used throughout the bot.
-
+require('./Database/Connection')
 const fs = require("fs");
 const { Client, Collection, Intents } = require("discord.js");
 const { REST } = require("@discordjs/rest");

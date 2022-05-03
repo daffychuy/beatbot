@@ -8,4 +8,4 @@ const Servers = new mongoose.Schema({
 	collection: 'servers'
 });
 
-module.exports = mongoose.model("servers", Servers, "servers");
+module.exports = mongoose.model("BeatSaber", Servers, "servers");

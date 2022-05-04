@@ -1,8 +1,3 @@
-/**
- * @file Message Based Commands Handler
- * @author Naman Vrati
- * @since 1.0.0
- */
 
 // Declares constants (destructured) to be used in this file.
 
@@ -20,7 +15,6 @@ module.exports = {
 
 	/**
 	 * @description Executes when a message is created and handle it.
-	 * @author Naman Vrati
 	 * @param {Object} message The message which was created.
 	 */
 

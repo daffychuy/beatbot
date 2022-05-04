@@ -1,17 +1,5 @@
-/**
- * @file Button Interaction Handler
- * @author Krish Garg
- * @since 3.0.0
- */
-
 module.exports = {
 	name: "interactionCreate",
-
-	/**
-	 * @description Executes when an interaction is created and handle it.
-	 * @author Naman Vrati
-	 * @param {Object} interaction The interaction which was created
-	 */
 
 	execute: async (interaction) => {
 		// Deconstructed client from interaction object.

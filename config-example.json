@@ -1,7 +1,12 @@
 {
 	"prefix": "!",
-	"token": "your-bot-token",
-	"owner": "owner-id",
-	"client_id": "bot-id",
-	"test_guild_id": "dev-server-id"
+	"token": "",
+	"owner": "",
+	"client_id": "",
+	"test_guild_id": "",
+	"DB_HOST": "",
+	"DB_USER": "",
+	"DB_PASS": "",
+	"DB_NAME": "",
+	"DB_PORT": ""
 }

@@ -80,7 +80,7 @@ module.exports = {
 		} else {
 			// Give a list of all the commands
 			helpEmbed
-				.setTitle("List of all my slash commands")
+				.setTitle("All available slash commands")
 				.setDescription(
 					"`" + commands.map((command) => command.data.name).join("`, `") + "`"
 				);

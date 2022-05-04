@@ -1,9 +1,3 @@
-/**
- * @file Sample Use Context Menu interaction
- * @author Krish Garg
- * @since 3.0.0
- */
-
 module.exports = {
 	data: {
 		name: "sample",
@@ -12,7 +6,6 @@ module.exports = {
 
 	/**
 	 * @description Executes when the context option with name "sample" is clicked.
-	 * @author Krish Garg
 	 * @param {Object} interaction The Interaction Object of the command.
 	 */
 

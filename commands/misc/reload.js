@@ -1,9 +1,3 @@
-/**
- * @file Command reloader
- * @author Naman Vrati
- * @since 1.0.0
- */
-
 // "fs" declared is used in reloading command cache of the specified command.
 const fs = require("fs");
 
@@ -15,7 +9,6 @@ module.exports = {
 
 	/**
 	 * @description Executes when the command is called by command handler.
-	 * @author Naman Vrati
 	 * @param {Object} message The Message Object of the command.
 	 * @param {String[]} args The Message Content of the received message seperated by spaces (' ') in an array, this excludes prefix and command/alias itself.
 	 */

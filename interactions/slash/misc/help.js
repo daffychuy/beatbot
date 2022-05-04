@@ -1,10 +1,3 @@
-/**
- * @file Sample help command with slash command.
- * @author Naman Vrati
- * @author Thomas Fournier <thomas@artivain.com>
- * @since 3.0.0
- * @version 3.1.0
- */
 
 // Deconstructed the constants we need in this file.
 
@@ -26,8 +19,6 @@ module.exports = {
 
 	/**
 	 * @description Executes when the interaction is called by interaction handler.
-	 * @author Naman Vrati
-	 * @author Thomas Fournier <thomas@artivain.com>
 	 * @param {*} interaction The interaction object of the command.
 	 */
 

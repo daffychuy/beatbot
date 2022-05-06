@@ -107,7 +107,7 @@ module.exports = {
 		const leaderboardEmbed = successEmbed()
 			.setColor('#1e90ff')
 			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
-			.addField('Weekly Leaderboard', leaderboardOutput)
+			.addField('Weekly Server Leaderboard', leaderboardOutput)
 			.setFooter({text: `Last Updated: ${lastUpdatedDate}`});
 		interaction.reply({
 			embeds: [leaderboardEmbed]

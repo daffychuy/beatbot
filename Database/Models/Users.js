@@ -10,6 +10,7 @@ const Users = new mongoose.Schema({
     rank: Number,
     countryRank: Number,
     pp: mongoose.Types.Decimal128,
+    pastPP: mongoose.Types.Decimal128,
     scoreStats: {
         type: Map,
         totalScore: mongoose.Types.Decimal128,
@@ -17,7 +18,11 @@ const Users = new mongoose.Schema({
         averageRankedAccuracy: mongoose.Types.Decimal128,
         totalPlayCount: Number,
         rankedPlayCount: Number,
-    }
+    },
+    // leaderboardDetail: [{
+    //     type: mongoose.Schema.Types.ObjectId,
+    //     ref: 'Leaderboard'
+    // }]
 }, {
     collection: 'Users'
 });

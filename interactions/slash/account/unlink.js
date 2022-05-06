@@ -3,8 +3,10 @@ const chalk = require('chalk');
 
 const Users = require('../../../Database/Models/Users');
 const Servers = require('../../../Database/Models/Servers');
+const Leaderboard = require("../../../Database/Models/Leaderboard");
 
 const { errorEmbed, successEmbed, warningEmbed } = require('../../../constants/messageTemplate');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -36,6 +38,12 @@ module.exports = {
 			interaction.reply({
 				embeds: [successEmbed().setDescription("Account has been unlinked")]
 			})
+			Leaderboard.deleteOne({ serverID, discordID })
+			.then((err, _) => {
+				if (err?.deletedCount !== 1) {
+					console.log(chalk.black.bgRed("Error", JSON.stringify(err)));
+				}})
+			
 			Servers.findOneAndUpdate(
 				{ serverID  },
 				{ $inc : { 'user_count': -1 } },

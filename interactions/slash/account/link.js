@@ -4,6 +4,7 @@ const got = require('got');
 
 const Users = require('../../../Database/Models/Users');
 const Servers = require('../../../Database/Models/Servers');
+const Leaderboard = require('../../../Database/Models/Leaderboard');
 const { errorEmbed, successEmbed, warningEmbed } = require('../../../constants/messageTemplate');
 const { scoresaberAPI } = require('../../../constants/URL');
 
@@ -60,6 +61,7 @@ module.exports = {
 				rank: scoresaberData.rank,
 				countryrank: scoresaberData.countryRank,
 				pp: scoresaberData.pp,
+				pastPP: -1,
 				scoreStats: {
 					totalScore: scoresaberData.scoreStats.totalScore,
 					totalRankedScore: scoresaberData.scoreStats.totalRankedScore,
@@ -103,6 +105,18 @@ module.exports = {
 						})
 				}
 			})
+
+			const leaderboard = new Leaderboard({
+				serverID: guildid,
+				scoresaberID: scoresaberData.id,
+				discordID: interaction.user.id,
+				ranking: -1,
+				pastRanking: -1,
+				globalRank: scoresaberData.rank,
+				pp: scoresaberData.pp,
+				userDetails: userDataInsertion._id
+			})
+			leaderboard.save();
 		}
 
 	}

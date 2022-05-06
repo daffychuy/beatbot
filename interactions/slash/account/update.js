@@ -9,7 +9,7 @@ const { scoresaberAPI } = require('../../../constants/URL');
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("update")
-		.setDescription("Update your account with the latest scoresaber data")
+		.setDescription("Force update your account with the latest scoresaber data")
 	,
 	async execute(interaction) {
 		const discordID = interaction.user.id;

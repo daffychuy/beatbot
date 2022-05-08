@@ -10,9 +10,11 @@ const chalk = require('chalk');
 			serverID: guild.id,
 			prefix: '!', // Not used, my be used in the future
 			user_count: 0,
-			lastWeeklyLeaderBoardUpdate: new Date('Jan 1, 1970'),
+			stickyLeaderBoard: null,
+			weeklyLeaderboard: null,
+			dailyLeaderBoard: null,
 		})
-		serverInsertion.save((err) => {
+		await serverInsertion.save((err) => {
 			if (err) {
 				console.log(chalk.black.bgRed("Error", err));
 			}

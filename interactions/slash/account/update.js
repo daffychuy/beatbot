@@ -28,8 +28,7 @@ module.exports = {
 		const scoresaberData = await got.get(scoresaberAPI + '/player/' + userData.scoresaberID + '/full')
 			.then(
 				res => {
-					const data = JSON.parse(res.body);
-					return data;
+					return JSON.parse(res.body);
 				},
 				err => {
 					return interaction.reply(
@@ -48,7 +47,7 @@ module.exports = {
 					scoresaberID: scoresaberData.id,
 					country: scoresaberData.country,
 					rank: scoresaberData.rank,
-					countryrank: scoresaberData.countryRank,
+					countryRank: scoresaberData.countryRank,
 					pp: scoresaberData.pp,
 					scoreStats: {
 						totalScore: scoresaberData.scoreStats.totalScore,

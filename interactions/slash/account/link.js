@@ -59,7 +59,9 @@ module.exports = {
 				scoresaberID: scoresaberData.id,
 				country: scoresaberData.country,
 				rank: scoresaberData.rank,
-				countryrank: scoresaberData.countryRank,
+				pastRank: -1,
+				countryRank: scoresaberData.countryRank,
+				pastCountryRank: -1,
 				pp: scoresaberData.pp,
 				pastPP: -1,
 				scoreStats: {

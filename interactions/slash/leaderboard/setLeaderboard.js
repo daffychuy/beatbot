@@ -1,48 +1,33 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const chalk = require('chalk');
-
-const dateFormat = require('date-fns/format');
 const Servers = require('../../../Database/Models/Servers');
 const Leaderboard = require('../../../Database/Models/Leaderboard');
 
 const { errorEmbed, successEmbed, warningEmbed } = require('../../../constants/messageTemplate');
+const dateFormat = require('date-fns/format');
 
 module.exports = {
 	data: new SlashCommandBuilder()
-		.setName("leaderboard")
-		.setDescription("Get a leaderboard for this server's users.")
-		.addSubcommand((subcommand) =>
+		.setName("setleaderboard")
+		.setDescription("Set the leaderboard for the server")
+		.addSubcommand(subcommand => 
 			subcommand
-				.setName("by-pp")
-				.setDescription("Get a leaderboard based on the amount of PP."))
-		.addSubcommand((subcommand) =>
+				.setName("weekly")
+				.setDescription("Set the leaderboard for the server, will update every week"))
+		.addSubcommand(subcommand =>
 			subcommand
-				.setName("by-ranking")
-				.setDescription("Get a leaderboard based on the global ranking."))
-
+				.setName("daily")
+				.setDescription("Set the leaderboard for the server, will update every day"))
 	,
 	async execute(interaction) {
 		const command = interaction.options._subcommand;
 		const serverID = interaction.guildId;
-		let leaderboardData = await Leaderboard.find( { serverID } )
+		const leaderboardData = await Leaderboard.find( { serverID } )
 			.populate({
 				path: 'userDetails', 
 				select: 'discordID name country rank countryRank pp pastPP scoreStats.averageRankedAccuracy'
 			})
 			.limit(10)
 			.sort({ 'pp': -1 })
-		if (command === "by-ranking") {
-			leaderboardData = await Leaderboard.find( { serverID } )
-				.populate({
-					path: 'userDetails', 
-					select: 'discordID name country rank countryRank pp pastPP scoreStats.averageRankedAccuracy'
-				})
-				.limit(10)
-				.sort({ 'globalRank': 1 })
-		}
-		
-		// First update all the data for users 
-		// (Might have to disable updating if gets too big)
 		let i = 0, arrLen = leaderboardData.length;
 		const toUpdate = [];
 		let leaderboardOutput = '';
@@ -91,23 +76,44 @@ module.exports = {
 		leaderboardOutput += '';
 
 		Leaderboard.collection.bulkWrite(toUpdate);
-
-		const lastUpdated = (await Servers.findOne({ serverID })).lastLeaderBoardUpdate;
-		let lastUpdatedDate = new Date(lastUpdated);
-
-		if (lastUpdatedDate.getFullYear().toString() === '1970') {
-			lastUpdatedDate = "Never";
-		} else {
-			lastUpdatedDate = dateFormat(new Date(lastUpdated), 'PPpp')
-		}
+		
 		const leaderboardEmbed = successEmbed()
 			.setColor('#ffa502')
 			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
 			.addField('Weekly Server Leaderboard', leaderboardOutput)
-			.setFooter({text: `Last Updated: ${lastUpdatedDate}`});
-		interaction.reply({
+			.setFooter({text: `Last Updated: ${dateFormat(new Date(), 'PPpp')}`});
+		await interaction.reply("Working on it...");
+		await interaction.deleteReply()
+		const sendMsg = await interaction.channel.send({
 			embeds: [leaderboardEmbed]
 		});
+
+		const msgID = {
+			messageID: sendMsg.id,
+			channelID: sendMsg.channelId,
+			lastUpdated: new Date()
+		}
+		// Update the message ID in the database so we can update later
+		console.log(command)
+		if (command === 'weekly') {
+			await Servers.updateOne({ serverID }, {
+				$set: {
+					weeklyLeaderboard: msgID
+				}
+			});
+		} else if (command === 'daily') {
+			await Servers.updateOne({ serverID }, {
+				$set: {
+					dailyLeaderboard: msgID
+				}
+			})
+		} else if (command === 'sticky') {
+			await Servers.updateOne({ serverID }, {
+				$set: {
+					stickyLeaderboard: msgID
+				}
+			})
+		}
 
 	}
 }

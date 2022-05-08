@@ -8,9 +8,11 @@ const Users = new mongoose.Schema({
     scoresaberID: String,
     country: String,
     rank: Number,
+    pastRank: Number,
     countryRank: Number,
+    pastCountryRank: Number,
     pp: mongoose.Types.Decimal128,
-    pastPP: mongoose.Types.Decimal128,
+    pastPP: mongoose.Types.Decimal128, // Used to track weekly pp
     scoreStats: {
         type: Map,
         totalScore: mongoose.Types.Decimal128,
@@ -19,12 +21,10 @@ const Users = new mongoose.Schema({
         totalPlayCount: Number,
         rankedPlayCount: Number,
     },
-    // leaderboardDetail: [{
-    //     type: mongoose.Schema.Types.ObjectId,
-    //     ref: 'Leaderboard'
-    // }]
 }, {
     collection: 'Users'
+}, {
+	minimize: false
 });
 
 module.exports = mongoose.model("Users", Users, "Users");

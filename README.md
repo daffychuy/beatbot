@@ -31,19 +31,19 @@ This is a beatsaber bot that takes advantage of [scoresaber](https://scoresaber.
 ### Link Account
 > Using the ID obtained from [https://scoresaber.com/user/id](https://scoresaber.com/) to register and link up account to the server/
 ```
-/link <userid>
+/link scoresaber <userid>
 ```
 
 ### Update Account
 > Force update user's account information from [scoresaber.com](https://scoresaber.com/)
 ```
-/update
+/update scoresaber
 ```
 
 ### Unlink Account
 > Unlink the account from the Server
 ```
-/unlink
+/unlink scoresaber
 ```
 
 ### Get Leaderboard

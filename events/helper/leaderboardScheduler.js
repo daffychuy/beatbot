@@ -145,7 +145,7 @@ const leaderboardUpdater = async (serverID, type) => {
 	return leaderboardOutput;
 }
 
-const weeklyScheduler = async (client) => new cron.CronJob('* * * * * *', async () => {
+const weeklyScheduler = async (client) => new cron.CronJob('0 0 0 * * 1', async () => {
 	for (const guildArr of client.guilds.cache) {
 		const guild = guildArr[1];
 		const server = await Servers.findOne({ serverID: guild.id });
@@ -154,10 +154,10 @@ const weeklyScheduler = async (client) => new cron.CronJob('* * * * * *', async 
 			.setColor('#ffa502')
 			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
 			.setFooter({text: `Last Updated: ${dateFormat(new Date(), 'PPpp')}`});
-			const data = await guild.channels.cache.get('972359391133192262')
-				.messages.fetch('972362011931451412')
+			const data = await guild.channels.cache.get(server.weeklyLeaderboard.channelID)
+				.messages.fetch(server.weeklyLeaderboard.messageID)
 			const out = await leaderboardUpdater(guild.id);
-			leaderboardEmbed.addField('Weekly Server Leaderboard', out);
+			leaderboardEmbed.addField('Weekly Server Leaderboards', out);
 			await leaderboardUpdater(guild.id, 'weekly');
 			data.edit({embeds: [leaderboardEmbed]});
 			// Wait 30 seconds before next one is allowed
@@ -178,8 +178,8 @@ const dailyScheduler = async (client) => new cron.CronJob('0 0 0 * * *', async (
 			.setColor('#ffa502')
 			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
 			.setFooter({text: `Last Updated: ${dateFormat(new Date(), 'PPpp')}`});
-			const data = await guild.channels.cache.get(server.weeklyLeaderboard.channelID)
-				.messages.fetch(server.weeklyLeaderboard.messageID)
+			const data = await guild.channels.cache.get(server.dailyLeaderboard.channelID)
+				.messages.fetch(server.dailyLeaderboard.messageID)
 			const out = await leaderboardUpdater(guild.id);
 			leaderboardEmbed.addField('Daily Server Leaderboard', out);
 			await leaderboardUpdater(guild.id, 'daily');

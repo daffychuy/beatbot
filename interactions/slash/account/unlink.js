@@ -12,6 +12,10 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("unlink")
 		.setDescription("Unlink your account from previously registered scoresaber.com account")
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName("scoresaber")
+				.setDescription("Unlink your account from previously registered scoresaber.com account"))
 	,
 	async execute(interaction) {
 		const discordID = interaction.user.id;

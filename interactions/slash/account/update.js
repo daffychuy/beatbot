@@ -10,6 +10,10 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("update")
 		.setDescription("Force update your account with the latest scoresaber data")
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName("scoresaber")
+				.setDescription("Force update your account with the latest scoresaber data"))
 	,
 	async execute(interaction) {
 		const discordID = interaction.user.id;

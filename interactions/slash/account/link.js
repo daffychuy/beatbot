@@ -12,12 +12,16 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("link")
 		.setDescription("Link your account with your scoresaber.com account.")
-		.addStringOption((option) =>
-			option
-				.setName("userid")
-				.setDescription("The userID of your scoresaber.com account.")
-				.setRequired(true)
-		),
+		.addSubcommand(subcommand =>
+			subcommand
+				.setName("scoresaber")
+				.setDescription("Link your account with your scoresaber.com account.")
+			.addStringOption((option) =>
+				option
+					.setName("userid")
+					.setDescription("The userID of your scoresaber.com account.")
+					.setRequired(true)
+			)),
 
 	async execute(interaction) {		
 		const userid = interaction.options.getString("userid");

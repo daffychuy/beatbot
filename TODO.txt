@@ -1,0 +1,11 @@
+- Permission only for setleaderboard
+- Multipage leaderboard
+- Allow other users to get someone elses data
+- beatsaver API
+	- Get song based on name
+	- Get song based on id
+	- Get song using scoresaber
+- Make more expressive help message
+- Convert javascript to type script
+- Update README
+- Getleaderboard should also update user data

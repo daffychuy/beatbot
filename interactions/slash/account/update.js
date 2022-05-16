@@ -28,7 +28,6 @@ module.exports = {
 			});
 		}
 
-		console.log(userData);
 		const scoresaberData = await got.get(scoresaberAPI + '/player/' + userData.scoresaberID + '/full')
 			.then(
 				res => {

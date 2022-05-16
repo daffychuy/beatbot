@@ -19,7 +19,7 @@ module.exports = {
 				.setDescription("Set the leaderboard for the server, will update every day"))
 	,
 	async execute(interaction) {
-		const command = interaction.options._subcommand;
+		const command = interaction.options.getSubcommand();
 		const serverID = interaction.guildId;
 		const leaderboardData = await Leaderboard.find( { serverID } )
 			.populate({

@@ -1,6 +1,7 @@
 - Permission only for setleaderboard
 - Multipage leaderboard
 - Allow other users to get someone elses data
+- Snipe user based on scoresaber id, which by supplying id, itll give the discord user associated
 - beatsaver API
 	- Get song based on name
 	- Get song based on id

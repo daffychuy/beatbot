@@ -11,6 +11,7 @@
 		- [Unlink Account](#unlink-account)
 		- [Get Leaderboard](#get-leaderboard)
 		- [Set Leaderboard](#set-leaderboard)
+		- [BS Commands](#bs-commands)
 
 <!-- About -->
 # About
@@ -56,4 +57,12 @@ This is a beatsaber bot that takes advantage of [scoresaber](https://scoresaber.
 > Set the leaderboard for the server (Requires mod permission) which will automatically update every week or every day
 ```
 /setleaderboard <weekly/daily>
+```
+
+### BS Commands
+> Various command under bs
+```
+/bs me
+/bs discord-user <@user/userid>
+/bs snipe <scoresaber-id>
 ```

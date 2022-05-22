@@ -166,7 +166,7 @@ const getUserByScoresaber = async (interaction) => {
 
 	return interaction.reply({
 		embeds: [
-			successEmbed().setDescription(`Snipped <@${userData.discordID}>!`),
+			successEmbed().setDescription(`*Cough* That's <@${userData.discordID}> *Cough*`),
 		]
 	})
 }

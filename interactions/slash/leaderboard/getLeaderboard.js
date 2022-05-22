@@ -24,6 +24,7 @@ module.exports = {
 	async execute(interaction) {
 		const command = interaction.options.getSubcommand();
 		const serverID = interaction.guildId;
+		let sortedBy = 'pp';
 		let leaderboardData = await Leaderboard.find( { serverID } )
 			.populate({
 				path: 'userDetails', 
@@ -39,6 +40,7 @@ module.exports = {
 				})
 				.limit(10)
 				.sort({ 'globalRank': 1 })
+			sortedBy = 'Global Ranking'
 		}
 		
 		// First update all the data for users 
@@ -88,12 +90,17 @@ module.exports = {
 				`\n`;
 			i++;
 		}
+		
 		leaderboardOutput += '';
 
-		Leaderboard.collection.bulkWrite(toUpdate);
+		if (toUpdate.length !== 0) {
+			Leaderboard.collection.bulkWrite(toUpdate);
+		} else {
+			leaderboardOutput = "No user found"
+		}
 
 		const lastUpdated = (await Servers.findOne({ serverID })).lastLeaderBoardUpdate;
-		let lastUpdatedDate = new Date(lastUpdated);
+		let lastUpdatedDate = new Date(lastUpdated ? lastUpdated : new Date("1970/01/01"));
 
 		if (lastUpdatedDate.getFullYear().toString() === '1970') {
 			lastUpdatedDate = "Never";
@@ -103,7 +110,7 @@ module.exports = {
 		const leaderboardEmbed = successEmbed()
 			.setColor('#ffa502')
 			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
-			.addField('Weekly Server Leaderboard', leaderboardOutput)
+			.addField(`Server Leaderboard sorted by ${sortedBy}`, leaderboardOutput)
 			.setFooter({text: `Last Updated: ${lastUpdatedDate}`});
 		interaction.reply({
 			embeds: [leaderboardEmbed]

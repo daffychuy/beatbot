@@ -75,7 +75,11 @@ module.exports = {
 		}
 		leaderboardOutput += '';
 
-		Leaderboard.collection.bulkWrite(toUpdate);
+		if (toUpdate.length !== 0) {
+			Leaderboard.collection.bulkWrite(toUpdate);
+		} else {
+			leaderboardOutput = "No user found"
+		}
 		
 		const leaderboardEmbed = successEmbed()
 			.setColor('#ffa502')

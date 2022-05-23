@@ -102,7 +102,6 @@ module.exports = {
 			lastUpdated: new Date()
 		}
 		// Update the message ID in the database so we can update later
-		console.log(command)
 		if (command === 'weekly') {
 			await Servers.updateOne({ serverID }, {
 				$set: {

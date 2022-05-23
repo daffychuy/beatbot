@@ -1,4 +1,6 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Permissions } = require('discord.js');
+
 const chalk = require('chalk');
 const got = require('got');
 
@@ -18,31 +20,63 @@ module.exports = {
 				.setDescription("Link your account with your scoresaber.com account.")
 			.addStringOption((option) =>
 				option
-					.setName("userid")
-					.setDescription("The userID of your scoresaber.com account.")
+					.setName("scoresaber-id")
+					.setDescription("The ID of your scoresaber.com account.")
 					.setRequired(true)
-			)),
+			))
+		.addSubcommand(subcommand => 
+			subcommand
+				.setName("other")
+				.setDescription("Set other discord user with their scoresaber account.")
+			.addUserOption(option => 
+				option
+					.setName("user")
+					.setDescription("The user to get the info of")
+					.setRequired(true)
+				)
+			.addStringOption(option => 
+				option
+					.setName("scoresaber-id")
+					.setDescription("The ID of other person's scoresaber.com account")
+					.setRequired(true))
+			)
+		,
+	async execute(interaction) {
+		const command = interaction.options.getSubcommand();
+		let scoresaberID = interaction.options.getString('scoresaber-id');;
+		let discordID;
 
-	async execute(interaction) {		
-		const userid = interaction.options.getString("userid");
+		if (command === 'scoresaber') {
+			discordID = interaction.user.id;
+		} else if (command === 'other') {
+			discordID = interaction.options.getUser('user').id
+			if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS) && 
+				!interaction.member.roles.cache.some(role => role.name === 'mod' || role.name === 'admin')) {
+				return interaction.reply({
+					embeds: [errorEmbed().setDescription("You do not have permission to use this command")],
+					ephemeral: true
+				})
+			}
+		}
 		
-		if (!userid) {
+		
+		if (!scoresaberID) {
 			return interaction.reply({embeds: [errorEmbed().setDescription("Please supply a scoresaber ID")]});
 		}
 
 		const guildid = interaction.guildId; 
-		const userData = await Users.findOne({ discordID: interaction.user.id, serverID: guildid });
+		const userData = await Users.findOne({ discordID, serverID: guildid });
 		if (userData) {
 			return interaction.reply(
 				{embeds: [warningEmbed().setDescription("You have already linked your scoresaber account, /unlink if you want to link with a different account")]}
 			)
 		}
-		if (await Users.findOne({scoresaberID: userid, serverID: guildid})) {
+		if (await Users.findOne({scoresaberID, serverID: guildid})) {
             return interaction.reply(
 				{embeds: [errorEmbed().setDescription("This id has already been linked")]}
 			)
         }
-		const scoresaberData = await got.get(scoresaberAPI + '/player/' + userid + '/full')
+		const scoresaberData = await got.get(scoresaberAPI + '/player/' + scoresaberID + '/full')
 			.then(
 				res => {
 					const data = JSON.parse(res.body);
@@ -57,7 +91,7 @@ module.exports = {
 		if (scoresaberData) {
 			const userDataInsertion = new Users({
 				serverID: guildid,
-				discordID: interaction.user.id,
+				discordID,
 				name: scoresaberData.name,
 				profilePicture: scoresaberData.profilePicture,
 				scoresaberID: scoresaberData.id,
@@ -115,7 +149,7 @@ module.exports = {
 			const leaderboard = new Leaderboard({
 				serverID: guildid,
 				scoresaberID: scoresaberData.id,
-				discordID: interaction.user.id,
+				discordID,
 				ranking: -1,
 				pastRanking: -1,
 				globalRank: scoresaberData.rank,

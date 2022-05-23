@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { Permissions } = require('discord.js');
 const Servers = require('../../../Database/Models/Servers');
 const Leaderboard = require('../../../Database/Models/Leaderboard');
 
@@ -23,6 +24,13 @@ module.exports = {
 				.setDescription("Set the leaderboard for the server, will update every day"))
 	,
 	async execute(interaction) {
+		if (!interaction.member.permissions.has(Permissions.FLAGS.MANAGE_CHANNELS) && 
+			!interaction.member.roles.cache.some(role => role.name === 'mod' || role.name === 'admin')) {
+			return interaction.reply({
+				embeds: [errorEmbed().setDescription("You do not have permission to use this command")],
+				ephemeral: true
+			})
+		}
 		const command = interaction.options.getSubcommand();
 		const serverID = interaction.guildId;
 		const leaderboardData = await Leaderboard.find( { serverID } )

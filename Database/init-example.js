@@ -15,3 +15,4 @@ db = db.getSiblingDB('BeatSaber')
 
 db.createCollection('Users');
 db.createCollection('Servers');
+db.createCollection('Leaderboard');

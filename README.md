@@ -3,6 +3,7 @@
 - [Table of Contents](#table-of-contents)
 - [About](#about)
 	- [What is This?](#what-is-this)
+	- [Add me](#add-me)
 - [Functionalities](#functionalities)
 	- [Features](#features)
 	- [Commands](#commands)
@@ -19,6 +20,9 @@ This is a bot created for a group of friends related to beatsaber for Discord.
 
 ## What is This?
 This is a beatsaber bot that takes advantage of [scoresaber](https://scoresaber.com/) and [beatsaver](https://beatsaver.com/)'s API to create leaderboard, track your progress, and more.
+
+## Add me
+To add this bot to your server, follow the url [here](https://beatbot.daffy.co).
 
 # Functionalities
 

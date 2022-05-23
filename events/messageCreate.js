@@ -1,8 +1,10 @@
 
 // Declares constants (destructured) to be used in this file.
+require('./Database/Connection')
 
 const { Collection } = require("discord.js");
-const { prefix, owner } = require("../config.json");
+
+const { prefix, owner } = process.env;
 
 // Prefix regex, we will use to match in mention prefix.
 

@@ -2,7 +2,7 @@ version: '3.7'
 
 services:
     mongodb:
-        image: mongo:latest
+        image: mongo:4.4.14
         container_name: mongodb_bs
         restart: always
         environment:

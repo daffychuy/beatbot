@@ -11,6 +11,13 @@ module.exports = {
 	async execute(client) {
 		console.log(`Ready! Logged in as ${client.user.tag}`);
 		console.log('Hooking up scheduler...')
+		client.user.setPresence({
+			activities:[{
+				name: 'BeatSaber',
+				type: 'PLAYING'
+			}]
+		})
+		
 		weeklyScheduler(client);
 		dailyScheduler(client);
 	},

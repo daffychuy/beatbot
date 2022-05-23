@@ -1,6 +1,6 @@
 
 // Declares constants (destructured) to be used in this file.
-require('./Database/Connection')
+require('dotenv').config()
 
 const { Collection } = require("discord.js");
 

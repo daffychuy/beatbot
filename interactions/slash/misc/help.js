@@ -70,11 +70,18 @@ module.exports = {
 			};
 		} else {
 			// Give a list of all the commands
+			// console.log(commands)
 			helpEmbed
 				.setTitle("All available slash commands")
-				.setDescription(
-					"`" + commands.map((command) => command.data.name).join("`, `") + "`"
-				);
+				// .setDescription(
+				// 	"`" + commands.map((command) => command.data.name).join("`, `") + "`"
+				// );
+			commands.map(command => {
+				helpEmbed.addField(`/${command.data.name}`, command.data.description);
+				console.log(command.data.options)
+				
+
+			})
 		};
 
 		// Replies to the interaction!

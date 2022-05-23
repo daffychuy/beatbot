@@ -22,7 +22,7 @@ This is a bot created for a group of friends related to beatsaber for Discord.
 This is a beatsaber bot that takes advantage of [scoresaber](https://scoresaber.com/) and [beatsaver](https://beatsaver.com/)'s API to create leaderboard, track your progress, and more.
 
 ## Add me
-To add this bot to your server, follow the url [here](https://beatbot.daffy.co).
+To add this bot to your server, follow the url [here](https://beatbot.daffy.co) ([Here](https://discord.com/api/oauth2/authorize?client_id=811441293053263873&permissions=8&scope=bot%20applications.commands) if other link doesn't work).
 
 # Functionalities
 

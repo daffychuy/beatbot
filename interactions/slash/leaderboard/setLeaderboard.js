@@ -5,6 +5,10 @@ const Leaderboard = require('../../../Database/Models/Leaderboard');
 const { errorEmbed, successEmbed, warningEmbed } = require('../../../constants/messageTemplate');
 const dateFormat = require('date-fns/format');
 
+function capitalizeFirstLetter(string) {
+	return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName("setleaderboard")
@@ -84,7 +88,7 @@ module.exports = {
 		const leaderboardEmbed = successEmbed()
 			.setColor('#ffa502')
 			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
-			.addField('Weekly Server Leaderboard', leaderboardOutput)
+			.addField(`${capitalizeFirstLetter(command)} Server Leaderboard`, leaderboardOutput)
 			.setFooter({text: `Last Updated: ${dateFormat(new Date(), 'PPpp')}`});
 		await interaction.reply("Working on it...");
 		await interaction.deleteReply()

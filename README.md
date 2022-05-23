@@ -37,6 +37,8 @@ To add this bot to your server, follow the url [here](https://beatbot.daffy.co) 
 > Using the ID obtained from [https://scoresaber.com/user/id](https://scoresaber.com/) to register and link up account to the server/
 ```
 /link scoresaber <userid>
+# The following command requires mod/admin role or manage server permissions
+/link other <@user> <scoresaberID>
 ```
 
 ### Update Account
@@ -58,7 +60,7 @@ To add this bot to your server, follow the url [here](https://beatbot.daffy.co) 
 ```
 
 ### Set Leaderboard
-> Set the leaderboard for the server (Requires mod permission) which will automatically update every week or every day
+> Set the leaderboard for the server (Requires mod/admin role or manage server permissions) which will automatically update every week or every day
 ```
 /setleaderboard <weekly/daily>
 ```

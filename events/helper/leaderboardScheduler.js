@@ -172,7 +172,7 @@ const weeklyScheduler = async (client) => new cron.CronJob('0 0 0 * * 1', async 
 const dailyScheduler = async (client) => new cron.CronJob('0 0 0 * * *', async () =>{
 	for (const guildArr of client.guilds.cache) {
 		const guild = guildArr[1];
-		const server = await Servers.findOne({ discordID: guild.id });
+		const server = await Servers.findOne({ serverID: guild.id });
 		if (server?.dailyLeaderboard?.channelID && server?.dailyLeaderboard?.messageID) {
 			const leaderboardEmbed = successEmbed()
 			.setColor('#ffa502')

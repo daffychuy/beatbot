@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const dateFormat = require('date-fns/format');
 const Servers = require('../../../Database/Models/Servers');
 const Leaderboard = require('../../../Database/Models/Leaderboard');
+const { rankingEmoji } = require('../../../constants/ranking');
 
 const { errorEmbed, successEmbed, warningEmbed } = require('../../../constants/messageTemplate');
 
@@ -24,7 +25,7 @@ module.exports = {
 	async execute(interaction) {
 		const command = interaction.options.getSubcommand();
 		const serverID = interaction.guildId;
-		let sortedBy = 'pp';
+		let sortedBy = 'PP';
 		let leaderboardData = await Leaderboard.find( { serverID } )
 			.populate({
 				path: 'userDetails', 
@@ -48,6 +49,11 @@ module.exports = {
 		let i = 0, arrLen = leaderboardData.length;
 		const toUpdate = [];
 		let leaderboardOutput = '';
+		const leaderboardEmbed = successEmbed()
+			.setColor('#ffa502')
+			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
+			.setDescription(`Server Leaderboard Sorted by ${sortedBy}`);
+
 		while (i < arrLen) {
 			let rankChanges = (leaderboardData[i].pastRanking === -1 || 
 				(leaderboardData[i].ranking - leaderboardData[i].pastRanking) === 0) ? 
@@ -81,13 +87,22 @@ module.exports = {
 				rankChanges = `-${rankChanges}`;
 			}
 
-			leaderboardOutput += '' +
+			if (i < 3) {
+				leaderboardEmbed.addFields({
+					name: `${rankingEmoji[i+1]} ${leaderboardData[i].userDetails.name}`,
+					value: `\`\`\`py\nPP: ${leaderboardData[i].pp}\nRanked: ${leaderboardData[i].userDetails.rank}\n\`\`\``,
+					inline: true
+				})
+			} else {
+				leaderboardOutput += '' +
 				// `${rankChanges} ` + ' '.repeat(3 - rankChanges.length) +
 				`#${leaderboardData[i].ranking}: ` +
 				`**${leaderboardData[i].userDetails.name}** ` + 
 				`${leaderboardData[i].pp}pp ` + 
 				`| Ranked: ${leaderboardData[i].userDetails.rank}` +
 				`\n`;
+			}	
+			
 			i++;
 		}
 		
@@ -99,19 +114,21 @@ module.exports = {
 			leaderboardOutput = "No user found"
 		}
 
-		const lastUpdated = (await Servers.findOne({ serverID })).lastLeaderBoardUpdate;
-		let lastUpdatedDate = new Date(lastUpdated ? lastUpdated : new Date("1970/01/01"));
+		leaderboardEmbed
+			.addFields({
+				name: '\u200B',
+				value: leaderboardOutput ? leaderboardOutput : '\u200B'
+			})
+			.setTimestamp(new Date())
+			// .setFooter({
+			// 	text:  
+			// })
+		// const leaderboardEmbed = successEmbed()
+		// 	.setColor('#ffa502')
+		// 	.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
+		// 	.addField(`Server Leaderboard sorted by ${sortedBy}`, leaderboardOutput)
+		// 	.setFooter({text: `Last Updated: ${lastUpdatedDate}`});
 
-		if (lastUpdatedDate.getFullYear().toString() === '1970') {
-			lastUpdatedDate = "Never";
-		} else {
-			lastUpdatedDate = dateFormat(new Date(lastUpdated), 'PPpp')
-		}
-		const leaderboardEmbed = successEmbed()
-			.setColor('#ffa502')
-			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
-			.addField(`Server Leaderboard sorted by ${sortedBy}`, leaderboardOutput)
-			.setFooter({text: `Last Updated: ${lastUpdatedDate}`});
 		interaction.reply({
 			embeds: [leaderboardEmbed]
 		});

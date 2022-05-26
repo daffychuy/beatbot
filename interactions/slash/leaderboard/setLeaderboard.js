@@ -4,7 +4,8 @@ const Servers = require('../../../Database/Models/Servers');
 const Leaderboard = require('../../../Database/Models/Leaderboard');
 
 const { errorEmbed, successEmbed, warningEmbed } = require('../../../constants/messageTemplate');
-const dateFormat = require('date-fns/format');
+// const dateFormat = require('date-fns/format');
+const { rankingEmoji } = require('../../../constants/ranking');
 
 function capitalizeFirstLetter(string) {
 	return string.charAt(0).toUpperCase() + string.slice(1);
@@ -42,6 +43,9 @@ module.exports = {
 			.sort({ 'pp': -1 })
 		let i = 0, arrLen = leaderboardData.length;
 		const toUpdate = [];
+		const leaderboardEmbed = successEmbed()
+			.setColor('#ffa502')
+			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>");
 		let leaderboardOutput = '';
 		while (i < arrLen) {
 			let rankChanges = (leaderboardData[i].pastRanking === -1 || 
@@ -76,13 +80,23 @@ module.exports = {
 				rankChanges = `-${rankChanges}`;
 			}
 
-			leaderboardOutput += '' +
-				// `${rankChanges} ` + ' '.repeat(3 - rankChanges.length) +
-				`#${leaderboardData[i].ranking}: ` +
-				`**${leaderboardData[i].userDetails.name}** ` + 
-				`${leaderboardData[i].pp}pp ` + 
-				`| Ranked: ${leaderboardData[i].userDetails.rank}` +
-				`\n`;
+			if (i < 3) {
+				leaderboardEmbed.addFields({
+					name: `${rankingEmoji[i+1]} ${leaderboardData[i].userDetails.name}`,
+					value: `\`\`\`py\nPP: ${leaderboardData[i].pp}\nRanked: ${leaderboardData[i].userDetails.rank}\n\`\`\``,
+					inline: true
+				})
+			} else {
+				leaderboardOutput += '' +
+					// `${rankChanges} ` + ' '.repeat(3 - rankChanges.length) +
+					`#${leaderboardData[i].ranking}: ` +
+					`**${leaderboardData[i].userDetails.name}** ` + 
+					`${leaderboardData[i].pp}pp ` + 
+					`| Ranked: ${leaderboardData[i].userDetails.rank}` +
+					`\n`;
+			}
+
+			
 			i++;
 		}
 		leaderboardOutput += '';
@@ -93,11 +107,21 @@ module.exports = {
 			leaderboardOutput = "No user found"
 		}
 		
-		const leaderboardEmbed = successEmbed()
-			.setColor('#ffa502')
-			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
-			.addField(`${capitalizeFirstLetter(command)} Server Leaderboard`, leaderboardOutput)
-			.setFooter({text: `Last Updated: ${dateFormat(new Date(), 'PPpp')}`});
+		// const leaderboardEmbed = successEmbed()
+		// 	.setColor('#ffa502')
+		// 	.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
+		// 	.addField(`${capitalizeFirstLetter(command)} Server Leaderboard`, leaderboardOutput)
+		// 	.setFooter({text: `Last Updated: ${dateFormat(new Date(), 'PPpp')}`});
+		leaderboardEmbed
+			.addFields({
+				name: '\u200B',
+				value: leaderboardOutput ? leaderboardOutput : '\u200B'
+			})
+			.setTimestamp(new Date())
+			.setFooter({
+				text: `Updated ${command} `
+			})
+
 		await interaction.reply("Working on it...");
 		await interaction.deleteReply()
 		const sendMsg = await interaction.channel.send({

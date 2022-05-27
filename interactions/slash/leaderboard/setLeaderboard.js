@@ -45,7 +45,8 @@ module.exports = {
 		const toUpdate = [];
 		const leaderboardEmbed = successEmbed()
 			.setColor('#ffa502')
-			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>");
+			.setTitle( "<:saberleft:812173106705334272> BeatSaber Leaderboard <:redsaberright:812180742683099136>")
+			.setDescription(`${capitalizeFirstLetter(command)} Server Leaderboard`);
 		let leaderboardOutput = '';
 		while (i < arrLen) {
 			let rankChanges = (leaderboardData[i].pastRanking === -1 || 

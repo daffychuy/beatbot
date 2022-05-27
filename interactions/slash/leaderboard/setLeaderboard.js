@@ -155,5 +155,6 @@ module.exports = {
 			})
 		}
 
-	}
+	},
+	capitalizeFirstLetter
 }

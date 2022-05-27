@@ -13,12 +13,14 @@ module.exports = {
 		console.log('Hooking up scheduler...')
 		client.user.setPresence({
 			activities:[{
-				name: 'BeatSaber',
+				name: `BeatSaber`,
 				type: 'PLAYING'
 			}]
 		})
 		
 		weeklyScheduler(client);
 		dailyScheduler(client);
+	
+
 	},
 };

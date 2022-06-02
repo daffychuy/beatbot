@@ -105,7 +105,7 @@ const leaderboardUpdater = async (serverID, type) => {
 			'-' : 
 			leaderboardData[i].pastRanking - leaderboardData[i].ranking;
 
-		const ppChanges = (leaderboardData[i].pp === -1 ? 0 : (leaderboardData[i].userDetails.pp - leaderboardData[i].pp));
+		const ppChanges = Math.round(( Number.EPSILON + (leaderboardData[i].userDetails.pastPP === -1 ? '0' : leaderboardData[i].pp - leaderboardData[i].userDetails.pastPP)) * 100) / 100;
 		leaderboardData[i].pp = leaderboardData[i].userDetails.pp;
 		if (type === 'weekly') {
 			leaderboardData[i].pastRanking = leaderboardData[i].ranking;

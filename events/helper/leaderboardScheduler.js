@@ -105,7 +105,7 @@ const leaderboardUpdater = async (serverID, type) => {
 			'-' : 
 			leaderboardData[i].pastRanking - leaderboardData[i].ranking;
 
-		// const ppChanges = (leaderboardData[i].pp === -1 ? 0 : (leaderboardData[i].userDetails.pp - leaderboardData[i].pp));
+		const ppChanges = (leaderboardData[i].pp === -1 ? 0 : (leaderboardData[i].userDetails.pp - leaderboardData[i].pp));
 		leaderboardData[i].pp = leaderboardData[i].userDetails.pp;
 		if (type === 'weekly') {
 			leaderboardData[i].pastRanking = leaderboardData[i].ranking;
@@ -141,7 +141,7 @@ const leaderboardUpdater = async (serverID, type) => {
 		if (i < 3) {
 			leaderboardEmbed.addFields({
 				name: `${rankingEmoji[i+1]} ${leaderboardData[i].userDetails.name}`,
-				value: `\`\`\`py\nPP: ${leaderboardData[i].pp}\nRanked: ${leaderboardData[i].userDetails.rank}\n\`\`\``,
+				value: `\`\`\`py\nPP: ${leaderboardData[i].pp} (+${ppChanges})\nRanked: ${leaderboardData[i].userDetails.rank}\n\`\`\``,
 				inline: true
 			})
 		} else {
@@ -149,7 +149,7 @@ const leaderboardUpdater = async (serverID, type) => {
 				// `${rankChanges} ` + ' '.repeat(3 - rankChanges.length) +
 				`#${leaderboardData[i].ranking}: ` +
 				`**${leaderboardData[i].userDetails.name}** ` + 
-				`${leaderboardData[i].pp}pp ` + 
+				`${leaderboardData[i].pp}pp (+${ppChanges}) ` + 
 				`| Ranked: ${leaderboardData[i].userDetails.rank}` +
 				`\n`;
 		}
